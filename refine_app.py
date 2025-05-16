@@ -32,7 +32,7 @@ if st.button("Calculate"):
     result = CalRefine(default, target, EE, E, price)
     st.markdown(f"""
     ### 🧾 Result
-    - Elunium Needed: `{result[0]}` (Owned: `{result[1]}`, Cost: `{result[2]:.2f}m`)
+    - Elunium Needed: `{result[0]}` (Owned: `{result[1]}`, Cost: `{result[2]:.4f}m`)
     - EQ Needed: `{result[3]} ea` (Cost: `{result[4]:.2f}m`)
     - Zeny Cost: `{result[5]:.2f}m`
     - 💰 **Total Cost: `{result[6]:.2f}m`**
