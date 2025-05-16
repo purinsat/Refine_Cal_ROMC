@@ -24,9 +24,9 @@ st.title("🔧 Ragnarok Mobile Refinement Cost Calculator by PonderingTH ")
 
 default = st.number_input("Start Refine Level", min_value=4, max_value=14, value=4)
 target = st.number_input("Target Refine Level", min_value=5, max_value=15, value=5)
-EE = st.number_input("Enriched Elu (EE)", min_value=0, value=0)
+EE = st.number_input("Enriched Elu Owned (EE)", min_value=0, value=0)
 E = st.number_input("Elunium Owned", min_value=0, value=0)
-price = st.number_input("Cheapest EQ Price (million Zeny)", min_value=0.0, value=0.3, step=0.01)
+price = st.number_input("Cheapest EQ Price ( 100K = 0.1 )", min_value=0.0, value=0.3, step=0.01)
 
 if st.button("Calculate"):
     result = CalRefine(default, target, EE, E, price)
