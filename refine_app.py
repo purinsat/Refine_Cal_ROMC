@@ -20,7 +20,7 @@ def CalRefine(default, targetRefine, EE, E, CheapestPrice):
 
     return (Elu_Total, Elu_owned, Elu_Cost, EQ_Total, EQ_Cost, ZenyTotal, TotalCost)
 
-st.title("🔧 Ragnarok Mobile Refinement Cost Calculator")
+st.title("🔧 Ragnarok Mobile Refinement Cost Calculator by PonderingTH ")
 
 default = st.number_input("Start Refine Level", min_value=4, max_value=14, value=4)
 target = st.number_input("Target Refine Level", min_value=5, max_value=15, value=5)
@@ -37,3 +37,6 @@ if st.button("Calculate"):
     - Zeny Cost: `{result[5]:.2f}m`
     - 💰 **Total Cost: `{result[6]:.2f}m`**
     """)
+
+
+st.title("🔧 Please subscribe my channel at PonderingTH (Youtube) Thanks! ")
