@@ -1,5 +1,7 @@
 import streamlit as st
 import random
+import time
+import copy
 
 # -------------------------------
 # SAFE REFINE CALCULATOR SECTION
@@ -36,7 +38,6 @@ def cal_result(state, price, refinelv):
     outcome = random.choices(['success', 'fail', 'break'], weights=[40, 45, 15])[0]
 
     if state == 'damaged':
-        # This should not be called during damage (repair handled separately)
         return 'damaged', refinelv, 0
 
     if outcome == 'success':
@@ -50,12 +51,12 @@ def cal_result(state, price, refinelv):
 # STREAMLIT UI
 # -------------------------------
 st.set_page_config(page_title="Ragnarok Refine Tools", layout="centered")
-st.title("🔧 Ragnarok Mobile Refine Tools by PonderingTH (Youtube Channel)")
+st.title("🔧 Ragnarok Mobile Refine Tools by PonderingTH")
 
 tab1, tab2 = st.tabs(["🛡️ Safe Refine Calculator", "🎲 Normal Refine Simulator"])
 
 # -------------------------------
-# SAFE REFINE TAB
+# TAB 1: Safe Refine
 # -------------------------------
 with tab1:
     st.subheader("Safe Refine Cost Calculator")
@@ -76,51 +77,68 @@ with tab1:
         """)
 
 # -------------------------------
-# NORMAL REFINE TAB
+# TAB 2: Normal Refine Simulation
 # -------------------------------
 with tab2:
     st.subheader("Normal Refine Simulation (2 Items)")
 
     if "items" not in st.session_state:
         st.session_state["items"] = [
-            {"refine": 4, "state": "normal", "cost": 0, "price": 1200000},
+            {"refine": 4, "state": "normal", "cost": 0, "price": 30000},
             {"refine": 4, "state": "normal", "cost": 0, "price": 30000}
         ]
 
+    # Display items side-by-side
     col1, col2 = st.columns(2)
     for i, col in enumerate([col1, col2]):
         with col:
             item = st.session_state["items"][i]
             st.markdown(f"### 🧪 Item {i+1}")
-            st.number_input(f"🔧 Equipment Price (Item {i+1})", key=f"price_input_{i}", value=item["price"], step=1000, on_change=lambda i=i: st.session_state["items"][i].update(price=st.session_state[f"price_input_{i}"]))
+            st.number_input(
+                f"🔧 Equipment Price (Item {i+1})", 
+                key=f"price_input_{i}", 
+                value=item["price"], 
+                step=1000
+            )
+            # Update price
+            st.session_state["items"][i]["price"] = st.session_state[f"price_input_{i}"]
+
             st.text(f"Refine Level: +{item['refine']}")
             st.text(f"State: {item['state'].capitalize()}")
             st.text(f"Total Cost: {item['cost']:,} Zeny")
 
-    for i in range(2):
-        item = st.session_state["items"][i]
-        col = st.columns(1)[0]  # single-column layout per button row
+    # Buttons in same row
+    button_col1, button_col2 = st.columns(2)
 
+    for i, col in enumerate([button_col1, button_col2]):
         with col:
+            item = copy.deepcopy(st.session_state["items"][i])
             label = f"🛠 Repair Item {i+1}" if item["state"] == "damaged" else f"🔨 Refine Item {i+1}"
+
             if st.button(label, key=f"refine_btn_{i}"):
+                with st.spinner("Refining..."):
+                    time.sleep(1.2)
+
                 if item["state"] == "damaged":
                     item["cost"] += item["price"]
                     item["state"] = "normal"
                 else:
                     state, new_lv, add_cost = cal_result(item["state"], item["price"], item["refine"])
-                    st.session_state["items"][i] = {
-                        **item,
-                        "refine": new_lv,
-                        "state": state,
-                        "cost": item["cost"] + add_cost,
-                    }
+                    item["refine"] = new_lv
+                    item["state"] = state
+                    item["cost"] += add_cost
+
+                updated_items = copy.deepcopy(st.session_state["items"])
+                updated_items[i] = item
+                st.session_state["items"] = updated_items
+                st.rerun()  # ✅ Streamlit v1.30+ replacement
+
     st.markdown("---")
     if st.button("🔄 Reset All"):
         st.session_state["items"] = [
-            {"refine": 4, "state": "normal", "cost": 0, "price": 1200000},
+            {"refine": 4, "state": "normal", "cost": 0, "price": 30000},
             {"refine": 4, "state": "normal", "cost": 0, "price": 30000}
         ]
+        st.rerun()
 
-
-st.subheader("Please subscribe on my channel PonderingTH on Youtube if you found this help! Thanks!")
+st.subheader("Please subscribe on my channel PonderingTH on Youtube to support me. Thanks!")
