@@ -97,34 +97,24 @@ with tab2:
             st.text(f"State: {item['state'].capitalize()}")
             st.text(f"Total Cost: {item['cost']:,} Zeny")
 
-    btn_col1, btn_col2 = st.columns(2)
+    for i in range(2):
+        item = st.session_state["items"][i]
+        col = st.columns(1)[0]  # single-column layout per button row
 
-    with btn_col1:
-        item = st.session_state["items"][0]
-        if item["state"] == "damaged":
-            if st.button("🛠 Repair Item 1"):
-                item["cost"] += item["price"]
-                item["state"] = "normal"
-        else:
-            if st.button("🔨 Refine Item 1"):
-                state, new_lv, add_cost = cal_result(item["state"], item["price"], item["refine"])
-                item["refine"] = new_lv
-                item["state"] = state
-                item["cost"] += add_cost
-
-    with btn_col2:
-        item = st.session_state["items"][1]
-        if item["state"] == "damaged":
-            if st.button("🛠 Repair Item 2"):
-                item["cost"] += item["price"]
-                item["state"] = "normal"
-        else:
-            if st.button("🔨 Refine Item 2"):
-                state, new_lv, add_cost = cal_result(item["state"], item["price"], item["refine"])
-                item["refine"] = new_lv
-                item["state"] = state
-                item["cost"] += add_cost
-
+        with col:
+            label = f"🛠 Repair Item {i+1}" if item["state"] == "damaged" else f"🔨 Refine Item {i+1}"
+            if st.button(label, key=f"refine_btn_{i}"):
+                if item["state"] == "damaged":
+                    item["cost"] += item["price"]
+                    item["state"] = "normal"
+                else:
+                    state, new_lv, add_cost = cal_result(item["state"], item["price"], item["refine"])
+                    st.session_state["items"][i] = {
+                        **item,
+                        "refine": new_lv,
+                        "state": state,
+                        "cost": item["cost"] + add_cost,
+                    }
     st.markdown("---")
     if st.button("🔄 Reset All"):
         st.session_state["items"] = [
@@ -133,4 +123,4 @@ with tab2:
         ]
 
 
-st.title("Please subscribe on my channel PonderingTH on Youtube if you found this help! Thanks!")
+st.subheader("Please subscribe on my channel PonderingTH on Youtube if you found this help! Thanks!")
