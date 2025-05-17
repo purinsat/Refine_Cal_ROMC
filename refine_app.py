@@ -62,16 +62,16 @@ with tab1:
     st.subheader("Safe Refine Cost Calculator")
     default = st.number_input("From +", min_value=4, max_value=14, value=4)
     target = st.number_input("To +", min_value=5, max_value=15, value=5)
-    EE = st.number_input("Extra Elunium (EE)", min_value=0, value=0)
+    EE = st.number_input("Enriched Elunium Owned", min_value=0, value=0)
     E = st.number_input("Elunium Owned", min_value=0, value=0)
-    CheapestPrice = st.number_input("Cheapest EQ Price (million Zeny)", min_value=0.0, value=0.3, step=0.01)
+    CheapestPrice = st.number_input("Cheapest EQ Price (100K = 0.1 M )", min_value=0.0, value=0.3, step=0.01)
 
     if st.button("💰 Calculate Safe Refine Cost"):
         result = cal_safe_refine(default, target, EE, E, CheapestPrice)
         st.markdown(f"""
         ### 🧾 Cost Breakdown
-        - **Elunium Needed**: `{result[0]}` (Owned: `{result[1]}`, Cost: `{result[2]:.2f}m`)
-        - **EQ Needed**: `{result[3]}` (Cost: `{result[4]:.2f}m`)
+        - **Elunium Needed**: `{result[0]}` ea (Owned: `{result[1]} ` ea , Cost: `{result[2]:.2f}m`)
+        - **EQ Needed**: `{result[3]} ea` (Cost: `{result[4]:.2f}m`)
         - **NPC Zeny Cost**: `{result[5]:.2f}m`
         - 💰 **Total Cost: `{result[6]:.2f}m`**
         """)
