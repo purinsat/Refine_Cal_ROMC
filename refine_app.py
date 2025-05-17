@@ -50,7 +50,7 @@ def cal_result(state, price, refinelv):
 # STREAMLIT UI
 # -------------------------------
 st.set_page_config(page_title="Ragnarok Refine Tools", layout="centered")
-st.title("🔧 Ragnarok Mobile Refine Tools")
+st.title("🔧 Ragnarok Mobile Refine Tools by PonderingTH (Youtube Channel)")
 
 tab1, tab2 = st.tabs(["🛡️ Safe Refine Calculator", "🎲 Normal Refine Simulator"])
 
@@ -131,3 +131,6 @@ with tab2:
             {"refine": 4, "state": "normal", "cost": 0, "price": 1200000},
             {"refine": 4, "state": "normal", "cost": 0, "price": 30000}
         ]
+
+
+st.title("Please subscribe on my channel PonderingTH on Youtube if you found this help! Thanks!")
