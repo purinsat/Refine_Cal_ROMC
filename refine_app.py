@@ -70,7 +70,7 @@ with tab1:
         result = cal_safe_refine(default, target, EE, E, CheapestPrice)
         st.markdown(f"""
         ### 🧾 Cost Breakdown
-        - **Elunium Needed**: `{result[0]}` ea (Owned: `{result[1]} ` ea , Cost: `{result[2]:.2f}m`)
+        - **Elunium Needed**: `{result[0]} ea`  (Owned: `{result[1]} ea` , Cost: `{result[2]:.2f}m`)
         - **EQ Needed**: `{result[3]} ea` (Cost: `{result[4]:.2f}m`)
         - **NPC Zeny Cost**: `{result[5]:.2f}m`
         - 💰 **Total Cost: `{result[6]:.2f}m`**
